@@ -1,0 +1,1 @@
+from .aventureros import Aventurero
