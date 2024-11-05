@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
 
 class Aventurero(ABC):
-    def __init__(self, nombre, id, habilidad, exp, dinero) -> None:
+    def __init__(self, nombre:str, id:int, habilidad:int, exp:int, dinero:float) -> None:
         self.__nombre = nombre
         self.__id = id
         self.__habilidad = habilidad
         self.__exp = exp
         self.__dinero = dinero
+        self.__misiones = []
 
 
     @property
@@ -51,6 +52,10 @@ class Aventurero(ABC):
     @dinero.setter
     def dinero(self, dinero):
         self.__dinero = dinero
+        
+    @property
+    def misiones(self):
+        return self.__misiones
 
     @abstractmethod
     def asignar_exp(self):

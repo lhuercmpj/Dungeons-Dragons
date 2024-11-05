@@ -1,7 +1,7 @@
 from aventureros import Aventurero
 
 class Guerrero(Aventurero):
-    def __init__(self, nombre, id, habilidad, exp, dinero, fuerza):
+    def __init__(self, nombre, id, habilidad, exp, dinero, fuerza:int):
         super().__init__(nombre, id, habilidad, exp, dinero)
         self.__fuerza = fuerza
 

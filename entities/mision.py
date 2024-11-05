@@ -7,6 +7,7 @@ class Mision(ABC):
         self.__id = id
         self.__recompensa = recompensa
         self.__completado = completado
+        self.__aventureros = []
         
         
     @property
@@ -24,6 +25,10 @@ class Mision(ABC):
     @property
     def completa(self):
         return self.__completado
+    
+    @property
+    def aventureros(self):
+        return self.__aventureros
     
     
     
