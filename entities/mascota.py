@@ -1,5 +1,5 @@
 class Mascota:
-    def __init__(self, nombre, habilidad):
+    def __init__(self, nombre:str, habilidad:int):
         self.__nombre = nombre
         self.__habilidad = habilidad
 
