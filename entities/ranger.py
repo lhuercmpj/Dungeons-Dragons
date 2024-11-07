@@ -1,5 +1,5 @@
 from mascota import Mascota
-from aventureros import Aventurero
+from entities.aventurero import Aventurero
 
 class Ranger(Aventurero):
     def __init__(self, nombre, id, habilidad, exp, dinero, mascota=bool):

@@ -6,6 +6,7 @@ class Mascota:
     @property
     def nombre(self):
         return self.__nombre
+    
     @property
     def habilidad(self):
         return self.__habilidad
