@@ -18,34 +18,40 @@ class Gremio:
     
     def registrar_aventurero(self, nombre:str, clase:str , id:int, habilidad:int , experiencia:int, dinero:float, adicional, nombre_mascota = None, habilidad_mascota= None):
 
-        if habilidad > 100 or habilidad < 0 or nombre==None or clase not in ["Ranger","Guerrero","Mago"] or id==None or adicional==None:
+        if nombre == None or clase == None or id == None or habilidad == None or experiencia == None or dinero == None or adicional == None:
             raise DatoInvalido("Alguno de los datos ingresados es inválido")
         
-        aventurero_temp = Guerrero("Temp",id,0,0,0.0,0)
+        if 1 > habilidad > 100:
+            raise DatoInvalido("los puntos de habilidad deben de estar entre 1 y 100")
+        
+        if clase not in ["Ranger","Guerrero","Mago"]:
+            raise DatoInvalido("La clase seleccionada debe ser Guerrero, Mago o Ranger")
+
+        aventurero_temp = Guerrero("Temp", id, 0, 0, 0.0, 0)
 
         if aventurero_temp in self.aventureros:
             raise EntidadYaExiste("El aventurero ya está registrado, la ID no es única")
         
         if clase == "Guerrero":
-            if adicional<0 or adicional >100:
-                raise DatoInvalido
+            if 1 > adicional > 100:
+                raise DatoInvalido("La habilidad del guerrero es inválida")
             nuevo_aventurero = Guerrero(nombre,id,habilidad,experiencia,dinero,adicional)
             self.aventureros.append(nuevo_aventurero)
             
         elif clase == "Mago":
-            if adicional<1 or adicional >1000:
-                raise DatoInvalido
+            if 1 > adicional > 1000:
+                raise DatoInvalido("La habilidad del mago es inválida")
             nuevo_aventurero = Mago(nombre,id,habilidad,experiencia,dinero,adicional)
             self.aventureros.append(nuevo_aventurero)
 
         elif clase == "Ranger":
-            if habilidad_mascota<0 or habilidad_mascota >50 or nombre_mascota == None:
-                raise DatoInvalido
             nuevo_aventurero = Ranger(nombre,id,habilidad,experiencia,dinero,adicional)
+            if adicional:
+                if 1 > habilidad_mascota > 50  or nombre_mascota == None:
+                    raise DatoInvalido("La habilidad de la mascota es inválida o vacía")
+                mascota = Ranger.crear_mascota(nombre_mascota,habilidad_mascota)
+                nuevo_aventurero.mascota_obj = mascota
             self.aventureros.append(nuevo_aventurero)
-            mascota = Ranger.crear_mascota(nombre_mascota,habilidad_mascota)
-            nuevo_aventurero.mascota_obj = mascota
-        
         return True
             
     def registrar_mision(self, nombre:str, rango:int, recompensa:int, completado:bool = False, tipo_mision:str = None, cantidad_minima_miembros:int = None):
