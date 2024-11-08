@@ -14,59 +14,51 @@ class Aventurero(ABC):
     def nombre(self):
         return self.__nombre
 
-    @nombre.setter
-    def nombre(self, nombre):
-        self.__nombre = nombre
 
     @property
     def id(self):
         return self.__id
-
-    @id.setter
-    def id(self, id):
-        self.__id = id
 
   
     @property
     def habilidad(self):
         return self.__habilidad
 
-    @habilidad.setter
-    def habilidad(self, habilidad):
-        self.__habilidad = habilidad
-
    
     @property
     def exp(self):
         return self.__exp
-
-    @exp.setter
-    def exp(self, exp):
-        self.__exp = exp
 
     
     @property
     def dinero(self):
         return self.__dinero
 
-    @dinero.setter
-    def dinero(self, dinero):
-        self.__dinero = dinero
         
     @property
     def misiones(self):
         return self.__misiones
+    
+
+
+    @exp.setter
+    def exp(self, exp):
+        self.__exp = exp
+
+    @dinero.setter
+    def dinero(self, dinero):
+        self.__dinero = dinero
     
     def __eq__(self,otro):
         if  not isinstance(otro,Aventurero):
             return False
         return self.id == otro.id
 
-    @abstractmethod
+    
     def asignar_exp(self):
         pass
 
-    @abstractmethod
+    
     def asignar_recompensa(self):
         pass
 

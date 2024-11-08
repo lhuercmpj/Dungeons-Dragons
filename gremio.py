@@ -83,4 +83,34 @@ class Gremio:
         
         self.misiones.append(mision)
         return True
+    
+    def realizar_mision(self,nombre_mision:int,aventureros:list):
+        
+        if nombre_mision==None or aventureros==None:
+            raise DatoInvalido ("Nombre o aventureros no ingresados")
+
+        mision_temp=MisionIndividual(nombre_mision,0,0.0,False)
+        if mision_temp not in self.misiones:
+            raise EntidadNoExiste ("Mision no registrada")
+        
+        mision = self.misiones[self.misiones.index(mision_temp)]
+        
+        for aventurero in aventureros:
+            if aventurero not in self.aventureros:
+                raise EntidadNoExiste ("Aventurero no registrado")
+            if aventurero.rango < mision.rango:
+                raise DatoInvalido ("Aventurero con rango insuficiente")
+
+        if isinstance(mision,MisionGrupal):
+            if mision.cantidad_minima_miembros > len(aventureros):
+                raise DatoInvalido ("Cantidad de aventureros insuficientes")
+        
+        mision.completa = True
+        mision.aventureros= aventureros
+            
+
+            
+        
+        
+
         

@@ -2,8 +2,8 @@ from .mision import Mision
 
 class MisionGrupal(Mision):
     
-    def __init__(self,nombre:str, id:int, recompensa:float, completado:bool, cantidad_minima_miembros:int):
-        super().__init__(self, nombre, id, recompensa, completado)
+    def __init__(self,nombre:str, rango:int, recompensa:float, completado:bool, cantidad_minima_miembros:int):
+        super().__init__(self, nombre, rango, recompensa, completado)
         self.__cantidad_minima_miembros = cantidad_minima_miembros
         
     @property
