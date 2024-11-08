@@ -54,6 +54,8 @@ class Gremio:
             self.aventureros.append(nuevo_aventurero)
         return True
             
+    
+    
     def registrar_mision(self, nombre:str, rango:int, recompensa:int, completado:bool = False, tipo_mision:str = None, cantidad_minima_miembros:int = None):
         if nombre == None or rango == None or recompensa == None or completado == None:
             raise DatoInvalido("Alguno de los datos ingresado es inválido")
