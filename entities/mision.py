@@ -30,6 +30,11 @@ class Mision(ABC):
     def aventureros(self):
         return self.__aventureros
     
+    def __eq__(self,otro):
+        if  not isinstance(otro,Mision):
+            return False
+        return self.nombre == otro.nombre
+    
     
     
     
