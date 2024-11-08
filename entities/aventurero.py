@@ -56,6 +56,11 @@ class Aventurero(ABC):
     @property
     def misiones(self):
         return self.__misiones
+    
+    def __eq__(self,otro):
+        if  not isinstance(otro,Aventurero):
+            return False
+        return self.id == otro.id
 
     @abstractmethod
     def asignar_exp(self):
