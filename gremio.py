@@ -107,6 +107,10 @@ class Gremio:
         
         mision.completa = True
         mision.aventureros= aventureros
+        mision.repartir_recompensa()
+        mision.repartir_exp()
+        
+
             
 
             

@@ -7,7 +7,7 @@ class Aventurero(ABC):
         self.__habilidad = habilidad
         self.__exp = exp
         self.__dinero = dinero
-        self.__misiones = []
+        self.__misiones_resueltas = 0
 
 
     @property
@@ -36,8 +36,8 @@ class Aventurero(ABC):
 
         
     @property
-    def misiones(self):
-        return self.__misiones
+    def misiones_resueltas(self):
+        return self.__misiones_resueltas
     
 
 
@@ -48,19 +48,16 @@ class Aventurero(ABC):
     @dinero.setter
     def dinero(self, dinero):
         self.__dinero = dinero
+        
+    @misiones_resueltas.setter
+    def misiones_resueltas(self, nuevo_valor):
+        self.__misiones_resueltas += nuevo_valor
     
     def __eq__(self,otro):
         if  not isinstance(otro,Aventurero):
             return False
         return self.id == otro.id
 
-    
-    def asignar_exp(self):
-        pass
-
-    
-    def asignar_recompensa(self):
-        pass
 
     @abstractmethod
     def calcular_rango(self):
