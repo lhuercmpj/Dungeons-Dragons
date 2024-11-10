@@ -48,12 +48,12 @@ class Gremio:
         elif clase == "Ranger":
             if adicional not in [True,False]:
                 raise DatoInvalido("El dato adicional de Ranger debe ser True o False (S o N)")
-            nuevo_aventurero = Ranger(nombre,id,habilidad,experiencia,dinero,adicional)
+            nuevo_aventurero = Ranger(nombre,id,habilidad,experiencia,dinero)
             if adicional:
                 if 1 > habilidad_mascota > 50  or nombre_mascota == None:
                     raise DatoInvalido("La habilidad de la mascota es inválida o vacía")
-                mascota = Ranger.crear_mascota(nombre_mascota,habilidad_mascota)
-                nuevo_aventurero.mascota_obj = mascota
+                mascota = nuevo_aventurero.crear_mascota(nombre_mascota,habilidad_mascota)
+                nuevo_aventurero.mascota = mascota
             self.aventureros.append(nuevo_aventurero)
         return True
             
