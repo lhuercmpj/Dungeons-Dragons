@@ -112,12 +112,98 @@ class Gremio:
         mision.aventureros= aventureros
         mision.repartir_recompensa()
         mision.repartir_exp()
-        
+    
 
-            
+    def top_10_aventureros(self):                                                                  #a= elemento de la lista
+        top_aventureros = sorted(self.aventureros,key=lambda a: (-a.misiones_resueltas, a.nombre)) #Sortea de mayor a menor las
+                                                                                                #misiones y de menr a myr por nombre
+        return top_aventureros[:10]
+    
+    def mostrar_top_10_aventureros(self):
+        print("Top 10 Aventureros con Más Misiones Resueltas:")
+        for i, aventurero in enumerate(self.top_10_aventureros(), start=1): #Start para q arranque en 1 y no 0
+            print(f"{i}. {aventurero.nombre} - Misiones Resueltas: {aventurero.misiones_resueltas}")
+    
+    def top_5_misiones(self):
+        top_misiones = sorted(self.misiones,key=lambda m: (-m.recompensa, m.nombre))#Sortea de mayor a menor las
+                                                                                    #misiones y de menr a myr por nombre
+        return top_misiones[:5]
+    
+    def mostrar_top_5_misiones(self):
+        print("Top 5 Misiones con Mayor Recompensa:")
+        for i, mision in enumerate(self.top_5_misiones(), start=1):
+            print(f"{i}. {mision.nombre} - Recompensa: {mision.recompensa}")
 
+    def top_10_aventureros_habilidad(self):
+    
+        aventureros_con_habilidad = []
+    
+        for aventurero in self.aventureros:
+            if isinstance(aventurero, Guerrero):
+                habilidad_total = aventurero.habilidad + aventurero.fuerza / 2
+            elif isinstance(aventurero, Mago):
+                habilidad_total = aventurero.habilidad + aventurero.mana / 10
+            elif isinstance(aventurero, Ranger):
+                if aventurero.mascota:
+                    habilidad_total = aventurero.habilidad + aventurero.mascota.habilidad
+                else:
+                    habilidad_total = aventurero.habilidad
             
+            aventureros_con_habilidad.append((aventurero, habilidad_total))
+            
+        aventureros_ordenados = sorted(aventureros_con_habilidad,key=lambda x: (-x[1], x[0].nombre)) 
+        #x = Elemento de la lista aventurero_con_habilidad
+        #x[1] habilidad total ordenada de menor a mayor
+        #x[0].nombre = nombre del aventurero ordenado alfabeticamente
+    
+    def mostrar_top_10_aventureros_habilidad(self):
+        print("Top 10 Aventureros con Mayor Habilidad Total:")
+        top_aventureros = self.top_10_aventureros_habilidad()
+        for i, (aventurero, habilidad_total) in enumerate(top_aventureros, start=1):
+            print(f"{i}. {aventurero.nombre} - Habilidad Total: {habilidad_total}")
+    
+    def clasificar_y_mostrar_aventureros(self):
+   
+       
+        aventureros_guerreros = []
+        aventureros_magos = []
+        aventureros_rangers = []
+
+   
+        for aventurero in self.aventureros:
+            if isinstance(aventurero, Guerrero):
+                aventureros_guerreros.append(aventurero)
+            elif isinstance(aventurero, Mago):
+                aventureros_magos.append(aventurero)
+            elif isinstance(aventurero, Ranger):
+                aventureros_rangers.append(aventurero)
+
+       
+        aventureros_guerreros.sort(key=lambda a: a.nombre)
+        aventureros_magos.sort(key=lambda a: a.nombre)
+        aventureros_rangers.sort(key=lambda a: a.nombre)
+
         
-        
+        print("Aventureros de la clase Guerrero:")
+        if aventureros_guerreros:
+            for guerrero in aventureros_guerreros:
+                print(f"  - {guerrero.nombre}")
+        else:
+            print("  No hay aventureros de esta clase.")
+    
+        print("\nAventureros de la clase Mago:")
+        if aventureros_magos:
+            for mago in aventureros_magos:
+                print(f"  - {mago.nombre}")
+        else:
+            print("  No hay aventureros de esta clase.")
+    
+        print("\nAventureros de la clase Ranger:")
+        if aventureros_rangers:
+            for ranger in aventureros_rangers:
+                print(f"  - {ranger.nombre}")
+        else:
+            print("  No hay aventureros de esta clase.")
+    
 
         

@@ -52,4 +52,4 @@ class Ranger(Aventurero):
         self.mascota = Mascota(nombre_mascota, habilidad_mascota)
         
             
-       
+
