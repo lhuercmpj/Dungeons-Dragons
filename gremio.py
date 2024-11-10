@@ -16,7 +16,7 @@ class Gremio:
         return self.__misiones
     
     
-    def registrar_aventurero(self, nombre:str, clase:str , id:int, habilidad:int , experiencia:int, dinero:float, adicional, nombre_mascota = None, habilidad_mascota= None):
+    def registrar_aventurero(self, nombre:str, clase:str , id:int, habilidad:int , experiencia:int, dinero:float, adicional, nombre_mascota:str = None, habilidad_mascota:int = None):
 
         if nombre == None or clase == None or id == None or habilidad == None or experiencia == None or dinero == None or adicional == None:
             raise DatoInvalido("Alguno de los datos ingresados es inválido")
@@ -26,6 +26,7 @@ class Gremio:
         
         if clase not in ["Ranger","Guerrero","Mago"]:
             raise DatoInvalido("La clase seleccionada debe ser Guerrero, Mago o Ranger")
+        
 
         aventurero_temp = Guerrero("Temp", id, 0, 0, 0.0, 0)
 
@@ -45,6 +46,8 @@ class Gremio:
             self.aventureros.append(nuevo_aventurero)
 
         elif clase == "Ranger":
+            if adicional not in [True,False]:
+                raise DatoInvalido("El dato adicional de Ranger debe ser True o False (S o N)")
             nuevo_aventurero = Ranger(nombre,id,habilidad,experiencia,dinero,adicional)
             if adicional:
                 if 1 > habilidad_mascota > 50  or nombre_mascota == None:
