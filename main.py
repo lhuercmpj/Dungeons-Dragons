@@ -54,11 +54,13 @@ if __name__ == "__main__":
                         clase = "Ranger"
                         adicional = None
                         
-                        mascota = (input("El Ranger puede tener una mascota, desea adoptar una? (S/N): "))
-                        if mascota.lower() == "s":
+                        mascota = (input("El Ranger puede tener una mascota, desea adoptar una? (S/N): ")).lower()
+                        if mascota == "s":
                             adicional = True
-                        elif mascota.lower() == "n":
+                        elif mascota == "n":
                             adicional = False
+                        else:
+                            raise DatoInvalido("Se debe de ingresar S para afirmar, o N para denegar")
                         
                         if adicional:
                             nombre_mascota = input("Ingresa el nombre de la mascota: ")
@@ -68,9 +70,37 @@ if __name__ == "__main__":
                             gremio.registrar_aventurero(nombre,clase,id,habilidad,experiencia,dinero,adicional)            
                         
             case 2: 
-                gremio.registrar_mision
+                nombre = input("Ingrese el nombre de la misión: ")
+                rango = int(input("Ingrese el rango de la misión: "))
+                recompensa = float(input("Ingrese la recompensa de la misión: "))
+                grupal_o_indv = input("La misión es grupal?  (S/N): ").lower()
+                
+                if grupal_o_indv == "s":
+                    cantidad_minima = int(input("Ingrese la cantidad mínimo de participantes de la misión : "))
+                    gremio.registrar_mision(nombre, rango, recompensa, cantidad_minima)
+                elif grupal_o_indv == "n":
+                    adicional = False
+                    gremio.registrar_mision(nombre, rango, recompensa)
             case 3: 
-                gremio.realizar_mision
+                aventureros = []
+                registrar = True
+                
+                nombre_mision = input("Ingrese el nombre de la misión que quiera realizar: ")
+                
+                while registrar:
+
+                    agregar_miembro = input("¿Registrar otro aventurero? (S/N) : ")
+                    
+                    if agregar_miembro == 's':
+                        id_aventurero = input("Ingrese el ID del aventurero: ")
+                        aventureros.append(id_aventurero)
+                        
+                    elif agregar_miembro == "n":
+                        registrar = False
+                    
+                    else:
+                        raise DatoInvalido("Se debe de ingresar S para afirmar, o N para denegar")
+                gremio.realizar_mision(nombre_mision,aventureros)            
             case 4: 
                 pass
             case 5: 
