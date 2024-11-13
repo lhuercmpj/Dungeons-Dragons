@@ -102,8 +102,12 @@ class Gremio:
         mision = self.misiones[self.misiones.index(mision_temp)]
         aventureros_mision= []
 <<<<<<< HEAD
+<<<<<<< HEAD
         if mision.completado == True:
             raise DatoInvalido("Esta mision ya ha sido completada")
+=======
+        
+>>>>>>> c86a4f1788867999b838a3970d638d516354c19d
 =======
         
 >>>>>>> c86a4f1788867999b838a3970d638d516354c19d
@@ -121,12 +125,15 @@ class Gremio:
             if len(aventureros) != 1:
                 raise DatoInvalido("Se agregaron varios miembros a una misión individual")
 <<<<<<< HEAD
+<<<<<<< HEAD
 
         for aventurero_en_mision in aventureros_mision:
             aventurero_en_mision.misiones_resueltas+=1
            
         print("¡Se ha completado la mision!")
 =======
+=======
+>>>>>>> c86a4f1788867999b838a3970d638d516354c19d
             
         
 >>>>>>> c86a4f1788867999b838a3970d638d516354c19d

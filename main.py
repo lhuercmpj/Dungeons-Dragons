@@ -108,10 +108,14 @@ if __name__ == "__main__":
                     else:
                         raise DatoInvalido("Se debe de ingresar S para afirmar, o N para denegar")
 <<<<<<< HEAD
+<<<<<<< HEAD
                 try:
                     gremio.realizar_mision(nombre_mision,aventureros)  
                 except Exception as e:
                     print(e)        
+=======
+                gremio.realizar_mision(nombre_mision,aventureros)          
+>>>>>>> c86a4f1788867999b838a3970d638d516354c19d
 =======
                 gremio.realizar_mision(nombre_mision,aventureros)          
 >>>>>>> c86a4f1788867999b838a3970d638d516354c19d
