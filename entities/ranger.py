@@ -6,6 +6,7 @@ class Ranger(Aventurero):
         super().__init__(nombre, id, habilidad, exp, dinero)
         self.__mascota = None
         self.__rango = None
+        self.__misiones_resueltas=0
 
     @property
     def mascota(self):
@@ -15,6 +16,13 @@ class Ranger(Aventurero):
     def rango (self):
         return self.__rango
     
+    @property
+    def misiones_resueltas(self):
+        return self.__misiones_resueltas
+    @misiones_resueltas.setter
+    def misiones_resueltas(self, nuevo_valor):
+        self.__misiones_resueltas = nuevo_valor
+
     @rango.setter
     def rango (self,nr):
         self.__rango=nr
@@ -22,6 +30,11 @@ class Ranger(Aventurero):
     @mascota.setter
     def mascota(self,mascota_nueva):
         self.__mascota = mascota_nueva
+        
+    def __eq__(self,otro):
+        if  not isinstance(otro,Aventurero):
+            return False
+        return self.id == otro.id
 
   
     def calcular_rango(self):
@@ -50,6 +63,8 @@ class Ranger(Aventurero):
     
     def crear_mascota(self, nombre_mascota, habilidad_mascota):
         self.mascota = Mascota(nombre_mascota, habilidad_mascota)
+        
+
         
             
 

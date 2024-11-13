@@ -18,7 +18,7 @@ class Gremio:
     
     def registrar_aventurero(self, nombre:str, clase:str , id:int, habilidad:int , experiencia:int, dinero:float, adicional, nombre_mascota:str = None, habilidad_mascota:int = None):
 
-        if nombre == None or clase == None or id == None or habilidad == None or experiencia == None or dinero == None or adicional == None:
+        if nombre is None or clase is None or id is None or habilidad is None or experiencia is None or dinero is None or adicional is None:
             raise DatoInvalido("Alguno de los datos ingresados es inválido")
         
         if 1 > habilidad > 100:
@@ -55,12 +55,15 @@ class Gremio:
                 mascota = nuevo_aventurero.crear_mascota(nombre_mascota,habilidad_mascota)
                 nuevo_aventurero.mascota = mascota
             self.aventureros.append(nuevo_aventurero)
+        print(f"Aventurero {nuevo_aventurero.nombre} registrado, su id: {nuevo_aventurero.id}")
+        print("Lista actual de aventureros: ")
+        print(self.aventureros)
         return True
             
     
     
     def registrar_mision(self, nombre:str, rango:int, recompensa:int,tipo_mision:str = None, completado:bool = False, cantidad_minima_miembros:int = None):
-        if nombre == None or rango == None or recompensa == None or completado == None:
+        if nombre is None or rango is None or recompensa is None or completado is None:
             raise DatoInvalido("Alguno de los datos ingresado es inválido")
         
         elif 1 > rango > 5:
@@ -72,8 +75,8 @@ class Gremio:
         elif tipo_mision not in ["Mision Individual", "Mision Grupal"]:
             raise DatoInvalido("El tipo de misión debe de ser individual o grupal")
             
-        completado_temp=False
-        mision_temp = MisionIndividual(nombre,2,3,completado_temp)
+
+        mision_temp = MisionIndividual(nombre,2,3,False)
         if mision_temp in self.misiones:
             raise EntidadYaExiste("La misión ya está registrada, el nombre no es único")
         
@@ -81,42 +84,47 @@ class Gremio:
             mision = MisionIndividual(nombre,rango,recompensa,completado)
             self.misiones.append(mision)
         elif tipo_mision == "Mision Grupal":
-            if cantidad_minima_miembros < 1 or cantidad_minima_miembros == None:
+            if cantidad_minima_miembros < 1 or cantidad_minima_miembros is None:
                 raise DatoInvalido("La cantidad mínima de miembros ingresada para la misión es inválida")
             mision = MisionGrupal(nombre, rango, recompensa, completado, cantidad_minima_miembros)
             self.misiones.append(mision)
-        
         return True
     
     def realizar_mision(self,nombre_mision:int,aventureros:list):
         
-        if nombre_mision==None or aventureros==None:
+        if nombre_mision is None or aventureros is None:
             raise DatoInvalido ("Nombre o aventureros no ingresados")
 
-        mision_temp=MisionIndividual(nombre_mision,0,0.0,False)
+        mision_temp = MisionIndividual(nombre_mision,1,1,False)
         if mision_temp not in self.misiones:
             raise EntidadNoExiste ("Mision no registrada")
         
         mision = self.misiones[self.misiones.index(mision_temp)]
-        aventureros_reales=[]
-        for aventurero in aventureros:
-            if not aventurero in self.aventureros:
-                raise EntidadNoExiste ("Aventurero no registrado")
-            for aventureros_posta in self.aventureros:
-                if aventureros_posta == aventurero:
-                    aventureros_reales.append(aventureros_posta)
-
-                    if aventureros_posta.rango < mision.rango:
-                       raise DatoInvalido ("Aventurero con rango insuficiente")
+        aventureros_mision= []
+        if mision.completado == True:
+            raise DatoInvalido("Esta mision ya ha sido completada")
+        for aventurero_temp in aventureros:
+            if aventurero_temp not in self.aventureros:
+                raise EntidadNoExiste("Alguna ID proporcionada no corresponde a ningún aventurero")
+            aventurero = self.aventureros[self.aventureros.index(aventurero_temp)]
+            aventureros_mision.append(aventurero)
+            
 
         if isinstance(mision,MisionGrupal):
             if mision.cantidad_minima_miembros > len(aventureros):
                 raise DatoInvalido ("Cantidad de aventureros insuficientes")
-        
+        elif isinstance(mision,MisionIndividual):
+            if len(aventureros) != 1:
+                raise DatoInvalido("Se agregaron varios miembros a una misión individual")
+
+        for aventurero_en_mision in aventureros_mision:
+            aventurero_en_mision.misiones_resueltas+=1
+           
+        print("¡Se ha completado la mision!")
         mision.completado = True
-        mision.aventureros= aventureros
-        mision.repartir_recompensa(aventureros_reales)
-        mision.repartir_exp(aventureros_reales)
+        mision.aventureros = aventureros_mision
+        mision.repartir_recompensa(aventureros_mision)
+        mision.repartir_exp(aventureros_mision)
     
 
     def top_10_aventureros(self):                                                                  #a= elemento de la lista
@@ -168,48 +176,6 @@ class Gremio:
         for i, (aventurero, habilidad_total) in enumerate(top_aventureros, start=1):
             print(f"{i}. {aventurero.nombre} - Habilidad Total: {habilidad_total}")
     
-    def clasificar_y_mostrar_aventureros(self):
-   
-       
-        aventureros_guerreros = []
-        aventureros_magos = []
-        aventureros_rangers = []
 
-   
-        for aventurero in self.aventureros:
-            if isinstance(aventurero, Guerrero):
-                aventureros_guerreros.append(aventurero)
-            elif isinstance(aventurero, Mago):
-                aventureros_magos.append(aventurero)
-            elif isinstance(aventurero, Ranger):
-                aventureros_rangers.append(aventurero)
-
-       
-        aventureros_guerreros.sort(key=lambda a: a.nombre)
-        aventureros_magos.sort(key=lambda a: a.nombre)
-        aventureros_rangers.sort(key=lambda a: a.nombre)
-
-        
-        print("Aventureros de la clase Guerrero:")
-        if aventureros_guerreros:
-            for guerrero in aventureros_guerreros:
-                print(f"  - {guerrero.nombre}")
-        else:
-            print("  No hay aventureros de esta clase.")
-    
-        print("\nAventureros de la clase Mago:")
-        if aventureros_magos:
-            for mago in aventureros_magos:
-                print(f"  - {mago.nombre}")
-        else:
-            print("  No hay aventureros de esta clase.")
-    
-        print("\nAventureros de la clase Ranger:")
-        if aventureros_rangers:
-            for ranger in aventureros_rangers:
-                print(f"  - {ranger.nombre}")
-        else:
-            print("  No hay aventureros de esta clase.")
-    
 
         

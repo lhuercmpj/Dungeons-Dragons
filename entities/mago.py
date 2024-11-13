@@ -5,7 +5,7 @@ class Mago(Aventurero):
         super().__init__(nombre, id, habilidad, exp, dinero)
         self.__mana = mana
         self.__rango=None
-
+        self.__misiones_resueltas=0
     @property
     def mana(self):
         return self.__mana
@@ -14,6 +14,13 @@ class Mago(Aventurero):
     def rango (self):
         return self.__rango
     
+    @property
+    def misiones_resueltas(self):
+        return self.__misiones_resueltas
+    @misiones_resueltas.setter
+    def misiones_resueltas(self, nuevo_valor):
+        self.__misiones_resueltas = nuevo_valor
+
     @rango.setter
     def rango (self,nr):
         self.__rango=nr
@@ -21,6 +28,11 @@ class Mago(Aventurero):
     @mana.setter
     def mana(self, mana):
         self.__mana = mana
+        
+    def __eq__(self,otro):
+        if  not isinstance(otro,Aventurero):
+            return False
+        return self.id == otro.id
 
     
 
@@ -38,3 +50,4 @@ class Mago(Aventurero):
                 self.rango = 4
         else:   
                 self.rango = 5
+

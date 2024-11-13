@@ -9,3 +9,8 @@ class MisionGrupal(Mision):
     @property
     def cantidad_minima_miembros(self):
         return self.__cantidad_minima_miembros
+    
+    def __eq__(self,otro):
+        if  not isinstance(otro,Mision):
+            return False
+        return self.nombre == otro.nombre

@@ -5,6 +5,8 @@ class Guerrero(Aventurero):
         super().__init__(nombre, id, habilidad, exp, dinero)
         self.__fuerza = fuerza
         self.__rango= None
+        self.__misiones_resueltas=0
+        
 
     @property
     def fuerza(self):
@@ -14,6 +16,14 @@ class Guerrero(Aventurero):
     def rango (self):
         return self.__rango
     
+    @property
+    def misiones_resueltas(self):
+        return self.__misiones_resueltas
+    
+    @misiones_resueltas.setter
+    def misiones_resueltas(self, nuevo_valor):
+        self.__misiones_resueltas = nuevo_valor
+
     @rango.setter
     def rango (self,nr):
         self.__rango=nr
@@ -21,6 +31,11 @@ class Guerrero(Aventurero):
     @fuerza.setter
     def fuerza(self, fuerza):
         self.__fuerza = fuerza
+        
+    def __eq__(self,otro):
+        if  not isinstance(otro,Aventurero):
+            return False
+        return self.id == otro.id
 
 
     def calcular_rango(self):
@@ -37,4 +52,5 @@ class Guerrero(Aventurero):
                 self.rango = 4
         else: self.rango = 5
 
-        pass
+        return
+    
