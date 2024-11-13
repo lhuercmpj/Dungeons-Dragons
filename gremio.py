@@ -59,7 +59,7 @@ class Gremio:
             
     
     
-    def registrar_mision(self, nombre:str, rango:int, recompensa:int, completado:bool = False, tipo_mision:str = None, cantidad_minima_miembros:int = None):
+    def registrar_mision(self, nombre:str, rango:int, recompensa:int,tipo_mision:str = None, completado:bool = False, cantidad_minima_miembros:int = None):
         if nombre == None or rango == None or recompensa == None or completado == None:
             raise DatoInvalido("Alguno de los datos ingresado es inválido")
         
@@ -72,19 +72,20 @@ class Gremio:
         elif tipo_mision not in ["Mision Individual", "Mision Grupal"]:
             raise DatoInvalido("El tipo de misión debe de ser individual o grupal")
             
-        
-        mision_temp = MisionIndividual(nombre,2,4)
+        completado_temp=False
+        mision_temp = MisionIndividual(nombre,2,3,completado_temp)
         if mision_temp in self.misiones:
             raise EntidadYaExiste("La misión ya está registrada, el nombre no es único")
         
         if tipo_mision == "Mision Individual":
             mision = MisionIndividual(nombre,rango,recompensa,completado)
+            self.misiones.append(mision)
         elif tipo_mision == "Mision Grupal":
             if cantidad_minima_miembros < 1 or cantidad_minima_miembros == None:
                 raise DatoInvalido("La cantidad mínima de miembros ingresada para la misión es inválida")
             mision = MisionGrupal(nombre, rango, recompensa, completado, cantidad_minima_miembros)
+            self.misiones.append(mision)
         
-        self.misiones.append(mision)
         return True
     
     def realizar_mision(self,nombre_mision:int,aventureros:list):
@@ -97,21 +98,25 @@ class Gremio:
             raise EntidadNoExiste ("Mision no registrada")
         
         mision = self.misiones[self.misiones.index(mision_temp)]
-        
+        aventureros_reales=[]
         for aventurero in aventureros:
-            if aventurero not in self.aventureros:
+            if not aventurero in self.aventureros:
                 raise EntidadNoExiste ("Aventurero no registrado")
-            if aventurero.rango < mision.rango:
-                raise DatoInvalido ("Aventurero con rango insuficiente")
+            for aventureros_posta in self.aventureros:
+                if aventureros_posta == aventurero:
+                    aventureros_reales.append(aventureros_posta)
+
+                    if aventureros_posta.rango < mision.rango:
+                       raise DatoInvalido ("Aventurero con rango insuficiente")
 
         if isinstance(mision,MisionGrupal):
             if mision.cantidad_minima_miembros > len(aventureros):
                 raise DatoInvalido ("Cantidad de aventureros insuficientes")
         
-        mision.completa = True
+        mision.completado = True
         mision.aventureros= aventureros
-        mision.repartir_recompensa()
-        mision.repartir_exp()
+        mision.repartir_recompensa(aventureros_reales)
+        mision.repartir_exp(aventureros_reales)
     
 
     def top_10_aventureros(self):                                                                  #a= elemento de la lista
@@ -151,7 +156,8 @@ class Gremio:
             
             aventureros_con_habilidad.append((aventurero, habilidad_total))
             
-        aventureros_ordenados = sorted(aventureros_con_habilidad,key=lambda x: (-x[1], x[0].nombre)) 
+        aventureros_ordenados = sorted(aventureros_con_habilidad,key=lambda x: (-x[1], x[0].nombre))
+        return aventureros_ordenados 
         #x = Elemento de la lista aventurero_con_habilidad
         #x[1] habilidad total ordenada de menor a mayor
         #x[0].nombre = nombre del aventurero ordenado alfabeticamente

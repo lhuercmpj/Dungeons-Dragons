@@ -1,6 +1,6 @@
 from gremio import Gremio
 from exceptions import EntidadYaExiste,EntidadNoExiste,DatoInvalido
-
+from entities import MisionIndividual,MisionGrupal,Aventurero,Guerrero,Mago,Ranger
 if __name__ == "__main__":
 
     gremio = Gremio()
@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
         try:
             respuesta = int(input("Ingrese un valor entre 1 y 5 para seleccionar: "))
-            if 1 > respuesta > 5:
+            if respuesta <1 or respuesta > 5:
                 raise DatoInvalido("El valor ingresado en el menú es debe de estar entre 1 y 5")
         except DatoInvalido as e:
             print(f"se ha ingresado un dato inválido: {e}")
@@ -77,32 +77,60 @@ if __name__ == "__main__":
                 
                 if grupal_o_indv == "s":
                     cantidad_minima = int(input("Ingrese la cantidad mínimo de participantes de la misión : "))
-                    gremio.registrar_mision(nombre, rango, recompensa, cantidad_minima)
+                    tipo_mision= "Mision Grupal"
+                    gremio.registrar_mision(nombre, rango, recompensa,tipo_mision,False, cantidad_minima)
                 elif grupal_o_indv == "n":
+                    tipo_mision= "Mision Individual"
                     adicional = False
-                    gremio.registrar_mision(nombre, rango, recompensa)
+                    gremio.registrar_mision(nombre, rango, recompensa,tipo_mision,False)
             case 3: 
                 aventureros = []
                 registrar = True
-                
-                nombre_mision = input("Ingrese el nombre de la misión que quiera realizar: ")
-                
-                while registrar:
+                realizando = True
+                while realizando:    
+                    try:
+                        nombre_mision = input("Ingrese el nombre de la misión que quiera realsizar: ")
+                        mision_temp= MisionIndividual(nombre,2,4,False)
+                        if mision_temp not in gremio.misiones:
+                            raise DatoInvalido("Mision no registrada")
+                    except DatoInvalido as e:
+                        print(e)
+                        break
 
-                    agregar_miembro = input("¿Registrar otro aventurero? (S/N) : ")
-                    
-                    if agregar_miembro == 's':
-                        id_aventurero = input("Ingrese el ID del aventurero: ")
-                        aventureros.append(id_aventurero)
+
+                
+                    while registrar:
+
+                        agregar_miembro = input("¿Registrar otro aventurero? (S/N) : ")
                         
-                    elif agregar_miembro == "n":
-                        registrar = False
-                    
-                    else:
-                        raise DatoInvalido("Se debe de ingresar S para afirmar, o N para denegar")
-                gremio.realizar_mision(nombre_mision,aventureros)            
+                        if agregar_miembro == 's':
+                            id_aventurero = input("Ingrese el ID del aventurero: ")
+                            aventurero_temp= ("Default",id_aventurero,1,1.1,10,1)
+                            aventureros.append(aventurero_temp)
+                            
+                        elif agregar_miembro == "n":
+                            registrar = False
+                        
+                        else:
+                            raise DatoInvalido("Se debe de ingresar S para afirmar, o N para denegar")
+                    gremio.realizar_mision(nombre_mision,aventureros)  
+                    realizando = False          
             case 4: 
-                pass
+                while True:
+                    print("1. Ver top 10 Aventureros con mas misiones resueltas")
+                    print("2. Ver top 10 Aventureros con mayor habilidad")
+                    print("3. Ver top 5 Misiones con mayor recompensa")
+                    print("4. Volver al Menú principal")
+                    consulta= int(input())
+                    match consulta:
+                        case 1:
+                            gremio.mostrar_top_10_aventureros()
+                        case 2:
+                            gremio.mostrar_top_10_aventureros_habilidad()
+                        case 3:
+                            gremio.mostrar_top_5_misiones
+                        case 4:
+                            break
             case 5: 
                 print("Abandondando el gremio...")
                 print("Se ha abandonado el gremio.")

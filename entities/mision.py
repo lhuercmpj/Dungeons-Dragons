@@ -23,7 +23,7 @@ class Mision(ABC):
         return self.__recompensa
     
     @property
-    def completa(self):
+    def completado(self):
         return self.__completado
     
     @property
@@ -34,9 +34,9 @@ class Mision(ABC):
     def aventureros (self,na):
         self.aventureros = na
 
-    @completa.setter
-    def completa (self,ne):
-        self.completa=ne
+    @completado.setter
+    def completado (self,ne):
+        self.completado=ne
     
     def __eq__(self,otro):
         if  not isinstance(otro,Mision):
@@ -45,12 +45,12 @@ class Mision(ABC):
 
 
 
-    def repartir_recompensa(self):
-        recompensa_dividida = self.recompensa / len(self.aventureros)
-        for aventurero in self.aventureros:
+    def repartir_recompensa(self,aventureros_reales):
+        recompensa_dividida = self.recompensa / len(aventureros_reales)
+        for aventurero in aventureros_reales:
             aventurero.dinero += recompensa_dividida
 
-    def repartir_exp(self):
+    def repartir_exp(self,aventureros_reales):
         
         match self.rango:
             case 1: 
@@ -64,7 +64,7 @@ class Mision(ABC):
             case 5: 
                 puntos_exp = 100
 
-        for aventurero in self.aventureros:
+        for aventurero in aventureros_reales:
             aventurero.exp += puntos_exp
 
 
