@@ -59,7 +59,7 @@ class Gremio:
             
     
     
-    def registrar_mision(self, nombre:str, rango:int, recompensa:int,cantidad_minima_miembros:int = None,completado:bool = False, ):
+    def registrar_mision(self, nombre:str, rango:int, recompensa:int, completado:bool = False, tipo_mision:str = None, cantidad_minima_miembros:int = None):
         if nombre == None or rango == None or recompensa == None or completado == None:
             raise DatoInvalido("Alguno de los datos ingresado es inválido")
         
@@ -68,18 +68,22 @@ class Gremio:
         
         elif recompensa < 0:
             raise DatoInvalido("La recompensa a dar debe ser un valor positivo")
-              
+        
+        elif tipo_mision not in ["Mision Individual", "Mision Grupal"]:
+            raise DatoInvalido("El tipo de misión debe de ser individual o grupal")
+            
         
         mision_temp = MisionIndividual(nombre,2,4)
         if mision_temp in self.misiones:
             raise EntidadYaExiste("La misión ya está registrada, el nombre no es único")
         
-        if cantidad_minima_miembros == None:
+        if tipo_mision == "Mision Individual":
             mision = MisionIndividual(nombre,rango,recompensa,completado)
-        else:
+        elif tipo_mision == "Mision Grupal":
             if cantidad_minima_miembros < 1 or cantidad_minima_miembros == None:
                 raise DatoInvalido("La cantidad mínima de miembros ingresada para la misión es inválida")
             mision = MisionGrupal(nombre, rango, recompensa, completado, cantidad_minima_miembros)
+        
         self.misiones.append(mision)
         return True
     
@@ -103,9 +107,6 @@ class Gremio:
         if isinstance(mision,MisionGrupal):
             if mision.cantidad_minima_miembros > len(aventureros):
                 raise DatoInvalido ("Cantidad de aventureros insuficientes")
-        elif isinstance(mision,MisionIndividual):
-            if aventureros > 1:
-                raise DatoInvalido("Se ingresaron varios aventureros para una mision individual")
         
         mision.completa = True
         mision.aventureros= aventureros
