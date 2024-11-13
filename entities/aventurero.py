@@ -39,8 +39,6 @@ class Aventurero(ABC):
     def misiones_resueltas(self):
         return self.__misiones_resueltas
     
-
-
     @exp.setter
     def exp(self, exp):
         self.__exp = exp

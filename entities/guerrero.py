@@ -21,6 +21,11 @@ class Guerrero(Aventurero):
     @fuerza.setter
     def fuerza(self, fuerza):
         self.__fuerza = fuerza
+        
+    def __eq__(self,otro):
+        if  not isinstance(otro,Aventurero):
+            return False
+        return self.id == otro.id
 
 
     def calcular_rango(self):
@@ -37,4 +42,5 @@ class Guerrero(Aventurero):
                 self.rango = 4
         else: self.rango = 5
 
-        pass
+        return
+    

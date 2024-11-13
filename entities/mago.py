@@ -21,6 +21,11 @@ class Mago(Aventurero):
     @mana.setter
     def mana(self, mana):
         self.__mana = mana
+        
+    def __eq__(self,otro):
+        if  not isinstance(otro,Aventurero):
+            return False
+        return self.id == otro.id
 
     
 
@@ -38,3 +43,4 @@ class Mago(Aventurero):
                 self.rango = 4
         else:   
                 self.rango = 5
+

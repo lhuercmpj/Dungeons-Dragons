@@ -22,6 +22,11 @@ class Ranger(Aventurero):
     @mascota.setter
     def mascota(self,mascota_nueva):
         self.__mascota = mascota_nueva
+        
+    def __eq__(self,otro):
+        if  not isinstance(otro,Aventurero):
+            return False
+        return self.id == otro.id
 
   
     def calcular_rango(self):
@@ -50,6 +55,8 @@ class Ranger(Aventurero):
     
     def crear_mascota(self, nombre_mascota, habilidad_mascota):
         self.mascota = Mascota(nombre_mascota, habilidad_mascota)
+        
+
         
             
 
