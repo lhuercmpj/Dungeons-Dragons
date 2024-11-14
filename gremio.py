@@ -101,12 +101,8 @@ class Gremio:
         
         mision = self.misiones[self.misiones.index(mision_temp)]
         aventureros_mision= []
-<<<<<<< HEAD
         if mision.completado == True:
             raise DatoInvalido("Esta mision ya ha sido completada")
-=======
-        
->>>>>>> c86a4f1788867999b838a3970d638d516354c19d
         for aventurero_temp in aventureros:
             if aventurero_temp not in self.aventureros:
                 raise EntidadNoExiste("Alguna ID proporcionada no corresponde a ningún aventurero")
@@ -120,16 +116,11 @@ class Gremio:
         elif isinstance(mision,MisionIndividual):
             if len(aventureros) != 1:
                 raise DatoInvalido("Se agregaron varios miembros a una misión individual")
-<<<<<<< HEAD
 
         for aventurero_en_mision in aventureros_mision:
             aventurero_en_mision.misiones_resueltas+=1
            
         print("¡Se ha completado la mision!")
-=======
-            
-        
->>>>>>> c86a4f1788867999b838a3970d638d516354c19d
         mision.completado = True
         mision.aventureros = aventureros_mision
         mision.repartir_recompensa(aventureros_mision)
