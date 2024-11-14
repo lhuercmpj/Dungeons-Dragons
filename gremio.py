@@ -133,19 +133,19 @@ class Gremio:
         mision.repartir_exp(aventureros_mision)
     
 
-    def top_10_aventureros(self):                                                                  #a= elemento de la lista
-        top_aventureros = sorted(self.aventureros,key=lambda a: (-a.misiones_resueltas, a.nombre)) #Sortea de mayor a menor las
-                                                                                                #misiones y de menr a myr por nombre
+    def top_10_aventureros(self):                                                                 
+        top_aventureros = sorted(self.aventureros,key=lambda a: (-a.misiones_resueltas, a.nombre)) 
+                                                                                                
         return top_aventureros[:10]
     
     def mostrar_top_10_aventureros(self):
         print("Top 10 Aventureros con Más Misiones Resueltas:")
-        for i, aventurero in enumerate(self.top_10_aventureros(), start=1): #Start para q arranque en 1 y no 0
+        for i, aventurero in enumerate(self.top_10_aventureros(), start=1): 
             print(f"{i}. {aventurero.nombre} - Misiones Resueltas: {aventurero.misiones_resueltas}")
     
     def top_5_misiones(self):
-        top_misiones = sorted(self.misiones,key=lambda m: (-m.recompensa, m.nombre))#Sortea de mayor a menor las
-                                                                                    #misiones y de menr a myr por nombre
+        top_misiones = sorted(self.misiones,key=lambda m: (-m.recompensa, m.nombre))
+                                                                                    
         return top_misiones[:5]
     
     def mostrar_top_5_misiones(self):
@@ -159,9 +159,9 @@ class Gremio:
     
         for aventurero in self.aventureros:
             if isinstance(aventurero, Guerrero):
-                habilidad_total = aventurero.habilidad + aventurero.fuerza / 2
+                habilidad_total = aventurero.habilidad + (aventurero.fuerza / 2)
             elif isinstance(aventurero, Mago):
-                habilidad_total = aventurero.habilidad + aventurero.mana / 10
+                habilidad_total = aventurero.habilidad + (aventurero.mana / 10)
             elif isinstance(aventurero, Ranger):
                 if aventurero.mascota:
                     habilidad_total = aventurero.habilidad + aventurero.mascota.habilidad
@@ -172,10 +172,8 @@ class Gremio:
             
         aventureros_ordenados = sorted(aventureros_con_habilidad,key=lambda x: (-x[1], x[0].nombre))
         return aventureros_ordenados 
-        #x = Elemento de la lista aventurero_con_habilidad
-        #x[1] habilidad total ordenada de menor a mayor
-        #x[0].nombre = nombre del aventurero ordenado alfabeticamente
-    
+        
+        
     def mostrar_top_10_aventureros_habilidad(self):
         print("Top 10 Aventureros con Mayor Habilidad Total:")
         top_aventureros = self.top_10_aventureros_habilidad()
