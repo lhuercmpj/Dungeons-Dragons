@@ -21,26 +21,26 @@ class Gremio:
         if nombre is None or clase is None or id is None or habilidad is None or experiencia is None or dinero is None or adicional is None:
             raise DatoInvalido("Alguno de los datos ingresados es inválido")
         
-        if 1 > habilidad > 100:
+        if not (1 <= habilidad <= 100):
             raise DatoInvalido("los puntos de habilidad deben de estar entre 1 y 100")
         
         if clase not in ["Ranger","Guerrero","Mago"]:
             raise DatoInvalido("La clase seleccionada debe ser Guerrero, Mago o Ranger")
         
 
-        aventurero_temp = Guerrero("Temp", id, 0, 0, 0.0, 0)
+        aventurero_temp = Guerrero("Temp", id, 1, 1, 1, 1)
 
         if aventurero_temp in self.aventureros:
             raise EntidadYaExiste("El aventurero ya está registrado, la ID no es única")
         
         if clase == "Guerrero":
-            if 1 > adicional > 100:
+            if not (1 <= adicional <= 100):
                 raise DatoInvalido("La habilidad del guerrero es inválida")
             nuevo_aventurero = Guerrero(nombre,id,habilidad,experiencia,dinero,adicional)
             self.aventureros.append(nuevo_aventurero)
             
         elif clase == "Mago":
-            if 1 > adicional > 1000:
+            if not (1 <= adicional <= 1000):
                 raise DatoInvalido("La habilidad del mago es inválida")
             nuevo_aventurero = Mago(nombre,id,habilidad,experiencia,dinero,adicional)
             self.aventureros.append(nuevo_aventurero)
@@ -50,14 +50,12 @@ class Gremio:
                 raise DatoInvalido("El dato adicional de Ranger debe ser True o False (S o N)")
             nuevo_aventurero = Ranger(nombre,id,habilidad,experiencia,dinero)
             if adicional:
-                if 1 > habilidad_mascota > 50  or nombre_mascota == None:
+                if not (1 <= habilidad_mascota <= 50)  or nombre_mascota == None:
                     raise DatoInvalido("La habilidad de la mascota es inválida o vacía")
                 mascota = nuevo_aventurero.crear_mascota(nombre_mascota,habilidad_mascota)
                 nuevo_aventurero.mascota = mascota
             self.aventureros.append(nuevo_aventurero)
-        print(f"Aventurero {nuevo_aventurero.nombre} registrado, su id: {nuevo_aventurero.id}")
-        print("Lista actual de aventureros: ")
-        print(self.aventureros)
+        print(f"Aventurero {nuevo_aventurero.nombre} registrado con éxito, su id: {nuevo_aventurero.id}")
         return True
             
     
@@ -88,6 +86,7 @@ class Gremio:
                 raise DatoInvalido("La cantidad mínima de miembros ingresada para la misión es inválida")
             mision = MisionGrupal(nombre, rango, recompensa, completado, cantidad_minima_miembros)
             self.misiones.append(mision)
+        print(f"Misión {mision.nombre} registrada con éxito!")
         return True
     
     def realizar_mision(self,nombre_mision:int,aventureros:list):
@@ -105,8 +104,6 @@ class Gremio:
         if mision.completado == True:
             raise DatoInvalido("Esta mision ya ha sido completada")
 
-        if mision.completado == True:
-            raise DatoInvalido("Esta mision ya ha sido completada")
 
         for aventurero_temp in aventureros:
             if aventurero_temp not in self.aventureros:
@@ -139,20 +136,25 @@ class Gremio:
         return top_aventureros[:10]
     
     def mostrar_top_10_aventureros(self):
+        print("-------------------------------------")
         print("Top 10 Aventureros con Más Misiones Resueltas:")
         for i, aventurero in enumerate(self.top_10_aventureros(), start=1): 
             print(f"{i}. {aventurero.nombre} - Misiones Resueltas: {aventurero.misiones_resueltas}")
-    
+        print("-------------------------------------")
+        
     def top_5_misiones(self):
         top_misiones = sorted(self.misiones,key=lambda m: (-m.recompensa, m.nombre))
                                                                                     
         return top_misiones[:5]
     
     def mostrar_top_5_misiones(self):
+        print("-------------------------------------")
         print("Top 5 Misiones con Mayor Recompensa:")
         for i, mision in enumerate(self.top_5_misiones(), start=1):
             print(f"{i}. {mision.nombre} - Recompensa: {mision.recompensa}")
-
+        print("-------------------------------------")
+    
+    
     def top_10_aventureros_habilidad(self):
     
         aventureros_con_habilidad = []
@@ -175,10 +177,13 @@ class Gremio:
         
         
     def mostrar_top_10_aventureros_habilidad(self):
+        print("-------------------------------------")
         print("Top 10 Aventureros con Mayor Habilidad Total:")
         top_aventureros = self.top_10_aventureros_habilidad()
         for i, (aventurero, habilidad_total) in enumerate(top_aventureros, start=1):
             print(f"{i}. {aventurero.nombre} - Habilidad Total: {habilidad_total}")
+        print("-------------------------------------")
+        
     
 
 
